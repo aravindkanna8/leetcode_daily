@@ -1,0 +1,57 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        
+        ListNode dummy = new ListNode(-1);
+        ListNode curr = dummy;
+        ListNode t1 = l1;
+        ListNode t2 = l2;
+        int carry = 0;
+        while (t1 != null || t2 != null) {
+            int sum = carry;
+            if (t1 != null) sum += t1.val;
+            if (t2 != null) sum += t2.val;
+            ListNode newNode = new ListNode(sum % 10);
+            carry = sum / 10;
+
+            curr.next = newNode;
+            curr = curr.next;
+            if (t1 != null) t1 = t1.next;
+            if (t2 != null) t2 = t2.next;
+        }
+        if (carry > 0) {
+            ListNode newNode = new ListNode(carry);
+            curr.next = newNode;
+        }
+        return dummy.next;
+    }
+}
+
+// Intuition
+// The problem is to add two numbers represented by two linked lists and return the sum as a linked list.
+// Each node contains a single digit and the digits are stored in reverse order (i.e., the 1's digit is at the head of the list).
+
+// Approach
+// 1. Create a dummy node to serve as the starting point of the result linked list.
+// 2. Initialize pointers for both input linked lists and a carry variable to handle sums greater than 9.
+// 3. Iterate through both linked lists until the end of both lists is reached.
+// 4. At each step, add the corresponding digits of the linked lists along with the carry from the previous step.
+// 5. Create a new node with the digit part of the sum (sum % 10) and update the carry (sum / 10).
+// 6. Move to the next nodes in both linked lists.
+// 7. After the loop, if there is any carry left, add a new node with the carry value.
+// 8. Return the next node of the dummy node as the head of the result linked list.
+
+// Complexity
+// - Time complexity: O(n)
+//   - We traverse each linked list once, where n is the maximum length of the two linked lists.
+// - Space complexity: O(1)
+//   - The space used for the result linked list is not considered additional space as it is part of the output.
